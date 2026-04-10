@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Nusrat ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+body{margin:0;font-family:'Poppins',sans-serif;text-align:center;background:#0b0b1a;color:white;overflow:hidden}
+.container{padding:20px}
+
+h1{font-family:'Pacifico',cursive;font-size:2.2rem;color:#fff;text-shadow:0 0 5px #ff4b5c,0 0 10px #ff4b5c,0 0 20px #ff4b5c}
+
+.typing{margin-top:20px;font-size:1.1rem;min-height:120px}
+.heart{font-size:40px;animation:beat 1s infinite}
+button{margin-top:15px;padding:12px 25px;border:none;border-radius:25px;background:#ff4b5c;color:white;font-weight:bold}
+
+/* CLEAN CAKE FIX */
+.cake{position:relative;margin:40px auto;width:200px}
+.layer{height:45px;border-radius:12px;margin:6px 0;box-shadow:0 5px 15px rgba(0,0,0,0.3)}
+.layer1{background:#ff6f91}
+.layer2{background:#ff9671}
+.layer3{background:#ffc75f}
+
+/* REMOVE STRIP ISSUE */
+.layer::after{display:none}
+
+/* TEXT ON CAKE */
+.cake-text{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-family:'Pacifico';
+font-size:20px;
+color:#fff;
+text-shadow:0 0 5px #ff4b5c;
+}
+
+/* FIXED CANDLES POSITION */
+.candles{
+position:absolute;
+top:-25px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+gap:6px;
+}
+
+.candle{
+width:6px;
+height:20px;
+background:white;
+border-radius:2px;
+position:relative;
+}
+
+.flame{
+width:8px;
+height:10px;
+background:orange;
+border-radius:50%;
+position:absolute;
+top:-10px;
+left:-1px;
+animation:flicker 0.3s infinite;
+}
+
+@keyframes flicker{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+
+/* sparkle */
+.sparkle{position:absolute;width:6px;height:6px;background:white;border-radius:50%;animation:sparkleAnim 1.5s infinite}
+@keyframes sparkleAnim{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1.5)}}
+
+/* Shake */
+.shake{animation:shake 0.5s}
+@keyframes shake{0%{transform:translate(0)}25%{transform:translate(5px)}50%{transform:translate(-5px)}75%{transform:translate(5px)}100%{transform:translate(0)}}
+
+/* Popup */
+.popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);background:white;color:#ff4b5c;padding:20px 30px;border-radius:20px;font-family:'Pacifico';font-size:1.5rem;transition:0.5s;z-index:10}
+.popup.show{transform:translate(-50%,-50%) scale(1)}
+
+/* Heart Rain */
+.heart-rain{position:fixed;top:-10px;color:#ff1e3c;font-size:20px;animation:fall linear forwards;z-index:5}
+@keyframes fall{0%{transform:translateY(-10vh);opacity:1}100%{transform:translateY(110vh);opacity:0}}
+
+/* Fireworks */
+#fireworks{position:fixed;top:0;left:0;pointer-events:none;z-index:3}
+canvas{position:fixed;top:0;left:0;pointer-events:none}
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+<canvas id="fireworks"></canvas>
+
+<audio id="music" loop>
+<source src="https://www2.cs.uic.edu/~i101/SoundFiles/HappyBirthday.mid">
+</audio>
+
+<div class="container" id="main">
+<h1>Happy Birthday Nusrat ❤️</h1>
+<div class="heart">💖</div>
+<div id="typing" class="typing"></div>
+
+<div class="cake" id="cake">
+<div class="cake-text">Nusrat ❤️</div>
+<div class="candles" id="candles"></div>
+<div class="layer layer3"></div>
+<div class="layer layer2"></div>
+<div class="layer layer1"></div>
+</div>
+
+<button onclick="startAll()">🎂 Cut Cake</button>
+</div>
+
+<div id="popup" class="popup">I Love You Nusrat ❤️</div>
+
+<script>
+const text=`Meri pyari Miss 💕\nMeri cute Missu 💖\nMeri jaan Nummu 😘\nMeri sweet Nuu 🌸\n\nAaj meri Sabr Ka F'll ka birthday hai 🎂✨\nAur meri dhanya Patti ka bhi ❤️\n\nTum meri life ka sabse beautiful part ho 💫\nI love you sooo much ❤️`;
+
+let i=0;
+function typeWriter(){if(i<text.length){document.getElementById("typing").innerHTML+=text.charAt(i);i++;setTimeout(typeWriter,40);}}
+
+// candles FIXED
+for(let j=0;j<8;j++){
+let c=document.createElement("div");c.className="candle";
+let f=document.createElement("div");f.className="flame";
+c.appendChild(f);
+document.getElementById("candles").appendChild(c);
+}
+
+// sparkle
+for(let s=0;s<20;s++){
+let sp=document.createElement("div");
+sp.className="sparkle";
+sp.style.top=Math.random()*100+"%";
+sp.style.left=Math.random()*100+"%";
+document.getElementById("cake").appendChild(sp);
+}
+
+// confetti
+const canvas=document.getElementById('confetti');const ctx=canvas.getContext('2d');canvas.width=window.innerWidth;canvas.height=window.innerHeight;let confetti=[];
+function createConfetti(){for(let i=0;i<120;i++){confetti.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*6,d:Math.random()*5,color:"#ff4b5c"})}}
+function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);confetti.forEach(c=>{ctx.beginPath();ctx.arc(c.x,c.y,c.r,0,Math.PI*2);ctx.fillStyle=c.color;ctx.fill();c.y+=c.d;if(c.y>canvas.height)c.y=0})}
+
+// heart rain
+function heartRain(){let h=document.createElement("div");h.innerHTML="❤️";h.className="heart-rain";h.style.left=Math.random()*100+"vw";h.style.animationDuration=(Math.random()*2+3)+"s";document.body.appendChild(h);setTimeout(()=>h.remove(),5000);}
+
+// fireworks
+const fwCanvas=document.getElementById('fireworks');const fctx=fwCanvas.getContext('2d');fwCanvas.width=window.innerWidth;fwCanvas.height=window.innerHeight;
+let fireworks=[];
+function createFirework(){fireworks.push({x:Math.random()*fwCanvas.width,y:Math.random()*fwCanvas.height/2,r:2,alpha:1})}
+function drawFireworks(){fctx.clearRect(0,0,fwCanvas.width,fwCanvas.height);fireworks.forEach(f=>{fctx.beginPath();fctx.arc(f.x,f.y,f.r,0,Math.PI*2);fctx.fillStyle=`rgba(255,100,150,${f.alpha})`;fctx.fill();f.r+=1.5;f.alpha-=0.02});fireworks=fireworks.filter(f=>f.alpha>0)}
+
+function startAll(){
+document.getElementById('music').play();
+typeWriter();
+createConfetti();
+setInterval(draw,20);
+setInterval(heartRain,100);
+setInterval(createFirework,500);
+setInterval(drawFireworks,30);
+
+setTimeout(()=>{
+let flames=document.querySelectorAll('.flame');
+flames.forEach(f=>f.style.display='none');
+document.getElementById('cake').classList.add('shake');
+new Audio("https://www.soundjay.com/human/applause-8.mp3").play();
+document.getElementById('popup').classList.add('show');
+},3000);
+}
+</script>
+
+</body>
+</html>
